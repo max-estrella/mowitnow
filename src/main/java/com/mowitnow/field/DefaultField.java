@@ -1,4 +1,4 @@
-package com.mowitnow.model;
+package com.mowitnow.field;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -9,12 +9,12 @@ import java.awt.Point;
  *
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class Field {
+public class DefaultField implements IField {
 
     @VisibleForTesting
     Point dimension;
 
-    public Field(Point dimension) {
+    public DefaultField(Point dimension) {
         if (dimension.x >= 0 && dimension.y >=0) {
             this.dimension = dimension;
         } else {
@@ -23,6 +23,9 @@ public class Field {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean isValid(Point point) {
         return point.x >= 0 && point.y >= 0 &&
                 point.x <= this.dimension.x && point.y <= this.dimension.y;

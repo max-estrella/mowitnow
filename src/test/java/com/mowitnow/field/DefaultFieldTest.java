@@ -1,4 +1,4 @@
-package com.mowitnow.model;
+package com.mowitnow.field;
 
 import org.junit.Test;
 
@@ -9,11 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class FieldTest {
+public class DefaultFieldTest {
 
     @Test
     public void testCanGoInRange() throws Exception {
-        Field field = new Field(new Point(5,5));
+        DefaultField field = new DefaultField(new Point(5,5));
         Point point = new Point(3,2);
         assertThat(field.isValid(point)).isTrue();
 
@@ -35,7 +35,7 @@ public class FieldTest {
 
     @Test
     public void testWhenDimesionNotValidShouldBeZero() {
-        Field field = new Field(new Point(-5,-4));
+        DefaultField field = new DefaultField(new Point(-5,-4));
         assertThat(field.dimension).isEqualTo(new Point(0,0));
     }
 }
