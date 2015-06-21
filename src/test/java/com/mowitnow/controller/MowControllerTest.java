@@ -1,7 +1,7 @@
 package com.mowitnow.controller;
 
 import com.mowitnow.enums.Orientation;
-import com.mowitnow.field.IField;
+import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class MowControllerTest {
 
     @Mock
-    protected IField field;
+    protected ILand field;
 
     @InjectMocks
     protected MowController controller;

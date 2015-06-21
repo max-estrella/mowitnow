@@ -2,7 +2,7 @@ package com.mowitnow.controller;
 
 import com.google.common.collect.ImmutableList;
 import com.mowitnow.enums.Orientation;
-import com.mowitnow.field.DefaultField;
+import com.mowitnow.land.DefaultLand;
 import com.mowitnow.input.ICommand;
 import com.mowitnow.model.Mow;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class MowerTest {
 
     @Before
     public void setUp() {
-        when(command.getField()).thenReturn(new DefaultField(new Point(5, 5)));
+        when(command.getField()).thenReturn(new DefaultLand(new Point(5, 5)));
         mower = new Mower(command, observable);
     }
 

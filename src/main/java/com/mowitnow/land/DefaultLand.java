@@ -1,4 +1,4 @@
-package com.mowitnow.field;
+package com.mowitnow.land;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -9,12 +9,12 @@ import java.awt.Point;
  *
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class DefaultField implements IField {
+public class DefaultLand implements ILand {
 
     @VisibleForTesting
     Point dimension;
 
-    public DefaultField(Point dimension) {
+    public DefaultLand(Point dimension) {
         if (dimension.x >= 0 && dimension.y >=0) {
             this.dimension = dimension;
         } else {

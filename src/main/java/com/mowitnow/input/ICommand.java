@@ -2,7 +2,7 @@ package com.mowitnow.input;
 
 
 import com.mowitnow.enums.Direction;
-import com.mowitnow.field.IField;
+import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 
 import java.util.List;
@@ -17,9 +17,9 @@ public interface ICommand {
     /**
      * Recupère les dimensions de la grille de pelouse
      *
-     * @return IField
+     * @return ILand
      */
-    IField getField();
+    ILand getField();
 
     /**
      * Retourne true si on a plus de tondeuses

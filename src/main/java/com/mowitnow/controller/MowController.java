@@ -3,7 +3,7 @@ package com.mowitnow.controller;
 import com.google.common.collect.ImmutableTable;
 import com.mowitnow.enums.Direction;
 import com.mowitnow.enums.Orientation;
-import com.mowitnow.field.IField;
+import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +49,7 @@ public class MowController implements Consumer<Direction> {
     };
 
     @Setter
-    private IField theField;
+    private ILand theField;
 
     @Setter
     @Getter

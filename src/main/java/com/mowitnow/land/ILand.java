@@ -1,4 +1,4 @@
-package com.mowitnow.field;
+package com.mowitnow.land;
 
 import javax.annotation.Nonnull;
 import java.awt.Point;
@@ -6,7 +6,7 @@ import java.awt.Point;
 /**
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public interface IField {
+public interface ILand {
 
     /**
      * True si la possition dans la pelouse est valide
