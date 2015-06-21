@@ -14,6 +14,7 @@
         <lombok.version>1.16.2</lombok.version>
         <guava.version>12.0</guava.version>
         <org.aspectj-version>1.8.5</org.aspectj-version>
+        <commons-version>2.4</commons-version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+
+        <!-- Apache Commons-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-version}</version>
         </dependency>
 
         <dependency>
