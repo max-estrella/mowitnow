@@ -14,9 +14,9 @@ public class DefaultLand implements ILand {
     @VisibleForTesting
     Point dimension;
 
-    public DefaultLand(Point dimension) {
-        if (dimension.x >= 0 && dimension.y >=0) {
-            this.dimension = dimension;
+    public void setDimension(int x, int y) {
+        if (x >= 0 && y >=0) {
+            this.dimension = new Point(x,y);
         } else {
             //todo what to do if not valid ??
             this.dimension = new Point(0,0);
