@@ -36,7 +36,9 @@ public class MowerTest {
 
     @Before
     public void setUp() {
-        when(command.getField()).thenReturn(new DefaultLand(new Point(5, 5)));
+        DefaultLand land = new DefaultLand();
+        land.setDimension(5,5);
+        when(command.getField()).thenReturn(land);
         mower = new Mower(command, observable);
     }
 

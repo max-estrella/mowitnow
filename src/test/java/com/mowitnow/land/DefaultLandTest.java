@@ -13,7 +13,8 @@ public class DefaultLandTest {
 
     @Test
     public void testCanGoInRange() throws Exception {
-        DefaultLand field = new DefaultLand(new Point(5,5));
+        DefaultLand field = new DefaultLand();
+        field.setDimension(5,5);
         Point point = new Point(3,2);
         assertThat(field.isValid(point)).isTrue();
 
@@ -35,7 +36,8 @@ public class DefaultLandTest {
 
     @Test
     public void testWhenDimesionNotValidShouldBeZero() {
-        DefaultLand field = new DefaultLand(new Point(-5,-4));
+        DefaultLand field = new DefaultLand();
+        field.setDimension(-5,-4);
         assertThat(field.dimension).isEqualTo(new Point(0,0));
     }
 }
