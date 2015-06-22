@@ -21,12 +21,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FileCommandTest {
+public class FileConfigReaderTest {
 
     @Test
     public void testReadFileAndGetMows() throws Exception {
         ILand land = Mockito.mock(ILand.class);
-        FileCommand command = new FileCommand(getClass().getClassLoader().getResourceAsStream("input.txt"), land);
+        FileConfigReader command = new FileConfigReader(getClass().getClassLoader().getResourceAsStream("input.txt"), land);
 
         List<Mow> mows = command.getMows();
 

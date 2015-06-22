@@ -1,6 +1,6 @@
 package com.mowitnow.controller;
 
-import com.mowitnow.input.ICommand;
+import com.mowitnow.input.IConfigReader;
 import com.mowitnow.model.Mow;
 
 import java.util.Observable;
@@ -14,15 +14,15 @@ public class Mower extends Observable implements IMower {
     /**
      * Input data
      */
-    protected ICommand command;
+    protected IConfigReader reader;
 
     /**
      * Controleur des tondeuses
      */
     protected Consumer<Mow> controller;
 
-    public Mower(ICommand command, Consumer<Mow> controller) {
-        this.command = command;
+    public Mower(IConfigReader reader, Consumer<Mow> controller) {
+        this.reader = reader;
         this.controller = controller;
     }
 
@@ -30,7 +30,7 @@ public class Mower extends Observable implements IMower {
      * Coupe la pelouse
      */
     public void mow() {
-        command.getMows()
+        reader.getMows()
                 .stream()
                 .filter(mow -> null != mow)
                 .forEach(mow -> {

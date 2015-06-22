@@ -2,7 +2,7 @@ package com.mowitnow.controller;
 
 import com.google.common.collect.Lists;
 import com.mowitnow.enums.Orientation;
-import com.mowitnow.input.ICommand;
+import com.mowitnow.input.IConfigReader;
 import com.mowitnow.model.Mow;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class MowerTest {
 
     @Mock
-    protected ICommand command;
+    protected IConfigReader reader;
 
     @Mock
     protected Consumer<Mow> controller;
@@ -36,7 +36,7 @@ public class MowerTest {
         Mow mow1 = new Mow(new Point(1,2), Orientation.NORTH);
         Mow mow2 = new Mow(new Point(3,3), Orientation.EAST);
 
-        when(command.getMows()).thenReturn(Lists.newArrayList(mow1, mow2));
+        when(reader.getMows()).thenReturn(Lists.newArrayList(mow1, mow2));
 
         mower.mow();
 

@@ -6,11 +6,12 @@ import com.mowitnow.model.Mow;
 import java.util.List;
 
 /**
- * Interface qui represente les différents instructions à donner à une tondeuse
+ * Les classes implémentant cet interface devront lire la configuration des tondeuses et la pelouse
+ * pour construire les objets à traiter
  *
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public interface ICommand {
+public interface IConfigReader {
 
     /**
      * Recupère les dimensions de la grille de pelouse

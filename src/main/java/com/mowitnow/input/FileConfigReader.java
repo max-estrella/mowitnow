@@ -5,6 +5,8 @@ import com.mowitnow.input.helper.ConfigHelper;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -25,7 +27,12 @@ import java.util.List;
  *
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class FileCommand implements ICommand {
+public class FileConfigReader implements IConfigReader {
+
+    /**
+     * Logger
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileConfigReader.class);
 
     /**
      * Instructions et dimensions de la pelouse
@@ -41,27 +48,29 @@ public class FileCommand implements ICommand {
      * Constructeur par défaut
      * @param inputStream
      * @param land
-     * @throws IOException
-     * @throws BadFormattedInputException
      */
-    public FileCommand(InputStream inputStream, ILand land) throws IOException, BadFormattedInputException {
+    public FileConfigReader(InputStream inputStream, ILand land) {
         this.land = land;
 
-        List<String> lines = IOUtils.readLines(inputStream);
-        ConfigHelper.setLandDimensions(land, lines);
-        this.mows = ConfigHelper.loadMowsAndCommands(lines);
+        try{
+            List<String> lines = IOUtils.readLines(inputStream);
+            ConfigHelper.setLandDimensions(land, lines);
+            this.mows = ConfigHelper.loadMowsAndCommands(lines);
+        } catch (IOException | BadFormattedInputException e) {
+            LOGGER.error("Error while reading from config file", e);
+        }
+
     }
 
     /**
      * Constructor pour charger un resource Spring
      * @param resource
      * @param land
-     * @throws IOException
-     * @throws BadFormattedInputException
      */
-    public FileCommand(Resource resource, ILand land) throws IOException, BadFormattedInputException {
+    public FileConfigReader(Resource resource, ILand land) throws IOException{
         this(resource.getInputStream(), land);
     }
+
     /**
      * {@inheritDoc}
      */
