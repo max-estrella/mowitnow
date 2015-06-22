@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
+ * Observer qui va imprimer tout simplement la position finale de la tondeuse
  * @author Max Velasco <ivan-maximino.velasco-martin@ign.fr>
  */
 public class MowObserver implements Observer {
