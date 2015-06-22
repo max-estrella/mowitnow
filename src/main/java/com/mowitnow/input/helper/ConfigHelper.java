@@ -62,7 +62,7 @@ public class ConfigHelper {
      */
     public static void setLandDimensions(ILand land, List<String> configLines) throws BadFormattedInputException {
         if (null != configLines && configLines.size()>=1) {
-            String[] tokens = configLines.get(0).split(" ");
+            String[] tokens = configLines.get(0).split(DELIMITER);
             if (tokens.length == 2) {
                 try{
                     land.setDimension(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1]));
@@ -82,13 +82,16 @@ public class ConfigHelper {
      * @return Mow
      * @throws NumberFormatException
      */
-    public static Mow buildMow(@Nonnull String line) throws NumberFormatException {
+    public static Mow buildMow(@Nonnull String line) throws BadFormattedInputException {
         String[] tokens = line.trim().split(DELIMITER);
-
         if (3 == tokens.length) { // on va être strict
-            return new Mow(new Point(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1])), buildOrientation(tokens[2]));
+            try {
+                return new Mow(new Point(Integer.valueOf(tokens[0]), Integer.valueOf(tokens[1])), buildOrientation(tokens[2]));
+            } catch (NumberFormatException e) {
+                throw new BadFormattedInputException("Bad formatted line (" + line + ") for building mow => " + e.getMessage());
+            }
         }
-        return null;
+        throw new BadFormattedInputException("Bad formatted line (" + line + ") for building mow ");
     }
 
     /**
@@ -96,14 +99,14 @@ public class ConfigHelper {
      * @param sOrientation
      * @return Orientation
      */
-    public static Orientation buildOrientation(@Nonnull String sOrientation) {
+    public static Orientation buildOrientation(@Nonnull String sOrientation) throws BadFormattedInputException{
         switch (sOrientation) {
             case "N" : return NORTH;
             case "S" : return SOUTH;
             case "E" : return EAST;
             case "W" : return WEST;
         }
-        return null;
+        throw new BadFormattedInputException("Bad formatted orientiation: " + sOrientation);
     }
 
     /**
@@ -120,15 +123,8 @@ public class ConfigHelper {
             for (int i = 1; i<commandLines.size(); i++) {
                 if (i % 2 != 0) {
                     //Mow
-                    try {
-                        mow = ConfigHelper.buildMow(commandLines.get(i));
-                        if (null == mow) {
-                            throw new BadFormattedInputException("Bad formatted line (" + commandLines.get(i) + ") for constructing mow");
-                        }
-                        mowList.add(mow);
-                    } catch (NumberFormatException e) {
-                        throw new BadFormattedInputException("Bad formatted line (" + commandLines.get(i) + ") for constructing mow => " + e.getMessage());
-                    }
+                    mow = ConfigHelper.buildMow(commandLines.get(i));
+                    mowList.add(mow);
                 } else {
                     //Orders
                     mow.setCommands(ConfigHelper.buildDirections(commandLines.get(i)));

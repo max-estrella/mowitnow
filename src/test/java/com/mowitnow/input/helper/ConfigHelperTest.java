@@ -2,6 +2,7 @@ package com.mowitnow.input.helper;
 
 import com.google.common.collect.Lists;
 import com.mowitnow.enums.Direction;
+import com.mowitnow.exception.BadFormattedInputException;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 import org.junit.Test;
@@ -51,42 +52,48 @@ public class ConfigHelperTest  {
     }
 
     @Test
-    public void testBuildMowIfLineOk() {
+    public void testBuildMowIfLineOk() throws Exception{
         Mow mow = ConfigHelper.buildMow("3 4 N  ");
         assertThat(mow).isNotNull();
         assertThat(mow.getOrientation()).isEqualTo(NORTH);
         assertThat(mow.getPosition()).isEqualTo(new Point(3, 4));
     }
 
-    @Test
-    public void testBuildMowIfLineNotOk() {
-        assertThat(ConfigHelper.buildMow("1 2")).isNull();
-        assertThat(ConfigHelper.buildMow("1 2 N 5 7")).isNull();
+    @Test(expected = BadFormattedInputException.class)
+    public void testBuildMowIfLineLessThanThreeTokensShouldThrowException() throws Exception {
+        ConfigHelper.buildMow("1 2");
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void testIfCoordsNotNumberShouldThrowsException() {
+    @Test(expected = BadFormattedInputException.class)
+    public void testBuildMowIfLineMoreThanThreeTokensShouldThrowException() throws Exception {
+        ConfigHelper.buildMow("1 2 N 5 7");
+    }
+
+    @Test(expected = BadFormattedInputException.class)
+    public void testIfCoordsNotNumberShouldThrowsException() throws Exception {
         ConfigHelper.buildMow("X X N");
     }
 
     @Test(expected = NullPointerException.class)
-    public void testIfLineNullShouldThrowsException() {
+    public void testIfLineNullShouldThrowsException() throws Exception {
         ConfigHelper.buildMow(null);
     }
 
     @Test
-    public void testBuildOrientation() {
+    public void testBuildOrientation() throws Exception {
         assertThat(ConfigHelper.buildOrientation("N")).isEqualTo(NORTH);
         assertThat(ConfigHelper.buildOrientation("S")).isEqualTo(SOUTH);
         assertThat(ConfigHelper.buildOrientation("W")).isEqualTo(WEST);
         assertThat(ConfigHelper.buildOrientation("E")).isEqualTo(EAST);
-        assertThat(ConfigHelper.buildOrientation("X")).isNull();
+    }
+
+    @Test(expected = BadFormattedInputException.class)
+    public void testBuildOrientationIfBadCharShouldThrowException() throws Exception {
+        ConfigHelper.buildOrientation("X");
     }
 
     @Test
     public void testLoadMowsAndCommandsIfOk() throws Exception {
-        Lists.newArrayList();
-
         List<Mow> mows = ConfigHelper.loadMowsAndCommands(fileLines());
         assertThat(mows).hasSize(2);
 
@@ -103,6 +110,14 @@ public class ConfigHelperTest  {
         assertThat(mows.get(1).getCommands()).containsExactly(
                 FORWARD, FORWARD, RIGHT, FORWARD, FORWARD, RIGHT, FORWARD, RIGHT, RIGHT, FORWARD
         );
+    }
+
+    @Test
+    public void testLoadMowsIfLessThanThreeLinesShouldBeEmpty() throws Exception {
+        assertThat(ConfigHelper.loadMowsAndCommands(Lists.newArrayList(
+                "5 5",
+                "1 2 N"
+        ))).isEmpty();
     }
 
     protected static List<String> fileLines() {
