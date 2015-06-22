@@ -1,5 +1,7 @@
 package com.mowitnow.controller;
 
+import com.google.common.collect.Lists;
+import com.mowitnow.enums.Direction;
 import com.mowitnow.enums.Orientation;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
@@ -10,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.awt.Point;
+import java.util.List;
 
 import static com.mowitnow.enums.Orientation.*;
 import static com.mowitnow.enums.Direction.FORWARD;
@@ -34,89 +37,123 @@ public class MowControllerTest {
     @Test
     public void testProcessInEastShouldChangeOrientation()  {
         //Change orientation
-        controller.setCurrentMow(buildMow(1, 1, EAST));
-        controller.accept(LEFT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, NORTH));
+        Mow mow = buildMow(1, 1, EAST, Lists.newArrayList(LEFT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(NORTH);
 
-        controller.setCurrentMow(buildMow(1, 1, EAST));
-        controller.accept(RIGHT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, SOUTH));
+        mow = buildMow(1, 1, EAST, Lists.newArrayList(RIGHT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(SOUTH);
     }
 
     @Test
     public void testProcessInEastWhenValidShouldForward() {
         when(field.isValid(any())).thenReturn(true);
-        controller.setCurrentMow(buildMow(1, 1, EAST));
-        controller.accept(FORWARD);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(2, 1, EAST));
+
+        Mow mow = buildMow(1, 1, EAST, Lists.newArrayList(FORWARD));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(2);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(EAST);
     }
 
     @Test
     public void testProcessInWestShouldChangeOrientation()  {
-        controller.setCurrentMow(buildMow(1, 1, WEST));
-        controller.accept(LEFT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, SOUTH));
+        Mow mow = buildMow(1, 1, WEST, Lists.newArrayList(LEFT));
 
-        controller.setCurrentMow(buildMow(1, 1, WEST));
-        controller.accept(RIGHT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, NORTH));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(SOUTH);
+
+        mow = buildMow(1, 1, WEST, Lists.newArrayList(RIGHT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(NORTH);
     }
 
     @Test
     public void testProcessInWestWhenValidShouldForward() {
         when(field.isValid(any())).thenReturn(true);
-        controller.setCurrentMow(buildMow(1, 1, WEST));
-        controller.accept(FORWARD);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(0, 1, WEST));
+
+        Mow mow = buildMow(1, 1, WEST, Lists.newArrayList(FORWARD));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(0);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(WEST);
     }
 
     @Test
     public void testProcessInNorthShouldChangeOrientation()  {
-        controller.setCurrentMow(buildMow(1, 1, NORTH));
-        controller.accept(RIGHT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, EAST));
+        Mow mow = buildMow(1, 1, NORTH, Lists.newArrayList(RIGHT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(EAST);
 
-        controller.setCurrentMow(buildMow(1, 1, NORTH));
-        controller.accept(LEFT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, WEST));
+
+        mow = buildMow(1, 1, NORTH, Lists.newArrayList(LEFT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(WEST);
     }
 
     @Test
     public void testProcessInNorthWhenValidShouldForward() {
         when(field.isValid(any())).thenReturn(true);
-        controller.setCurrentMow(buildMow(1, 1, NORTH));
-        controller.accept(FORWARD);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 2, NORTH));
+        Mow mow = buildMow(1, 1, NORTH, Lists.newArrayList(FORWARD));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(2);
+        assertThat(mow.getOrientation()).isEqualTo(NORTH);
     }
 
     @Test
     public void testProcessInSouthShouldChangeOrientation()  {
-        controller.setCurrentMow(buildMow(1, 1, SOUTH));
-        controller.accept(RIGHT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, WEST));
+        Mow mow = buildMow(1, 1, SOUTH, Lists.newArrayList(RIGHT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(WEST);
 
-        controller.setCurrentMow(buildMow(1, 1, SOUTH));
-        controller.accept(LEFT);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, EAST));
+        mow = buildMow(1, 1, SOUTH, Lists.newArrayList(LEFT));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(EAST);
     }
 
     @Test
     public void testProcessInSouthWhenValidShouldForward() {
         when(field.isValid(any())).thenReturn(true);
-        controller.setCurrentMow(buildMow(1, 1, SOUTH));
-        controller.accept(FORWARD);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 0, SOUTH));
+        Mow mow = buildMow(1, 1, SOUTH, Lists.newArrayList(FORWARD));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(0);
+        assertThat(mow.getOrientation()).isEqualTo(SOUTH);
     }
 
     @Test
     public void testProcessAnyWhereWhenInValidShouldStay() {
         when(field.isValid(any())).thenReturn(false);
-        controller.setCurrentMow(buildMow(1, 1, EAST));
-        controller.accept(FORWARD);
-        assertThat(controller.getCurrentMow()).isEqualTo(buildMow(1, 1, EAST));
+        Mow mow = buildMow(1, 1, EAST, Lists.newArrayList(FORWARD));
+        controller.accept(mow);
+        assertThat(mow.getPosition().x).isEqualTo(1);
+        assertThat(mow.getPosition().y).isEqualTo(1);
+        assertThat(mow.getOrientation()).isEqualTo(EAST);
     }
 
-    protected static Mow buildMow(int x, int y, Orientation orientation) {
-        return new Mow(new Point(x, y), orientation);
+
+
+    protected static Mow buildMow(int x, int y, Orientation orientation, List<Direction> commands) {
+        Mow mow = new Mow(new Point(x, y), orientation);
+        mow.setCommands(commands);
+        return mow;
     }
 }

@@ -5,7 +5,6 @@ import com.mowitnow.enums.Direction;
 import com.mowitnow.enums.Orientation;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
-import lombok.Getter;
 import lombok.Setter;
 
 import javax.annotation.Nonnull;
@@ -19,7 +18,7 @@ import static com.mowitnow.enums.Orientation.*;
 /**
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class MowController implements Consumer<Direction> {
+public class MowController implements Consumer<Mow> {
 
     /**
      * Marque le mouvement de la tondeuse par rapport à la direction actuel et la future
@@ -49,35 +48,38 @@ public class MowController implements Consumer<Direction> {
     };
 
     @Setter
-    private ILand theField;
-
-    @Setter
-    @Getter
-    private Mow currentMow;
+    private ILand land;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void accept(Direction command) {
-        Orientation nextOrientation = ORIENTATION_DIRECTION_TABLE.get(currentMow.getOrientation(), command);
-        if (null == nextOrientation) {
-            //Forward
-            Point nextPosition = next(command);
-            if (theField.isValid(nextPosition)) {
-                currentMow.setPosition(nextPosition);
+    public void accept(Mow currentMow) {
+        Consumer<Direction> movement = (Direction command) -> {
+            Orientation nextOrientation = ORIENTATION_DIRECTION_TABLE.get(currentMow.getOrientation(), command);
+            if (null == nextOrientation) {
+                //Forward
+                Point nextPosition = next(currentMow, command);
+                if (land.isValid(nextPosition)) {
+                    currentMow.setPosition(nextPosition);
+                }
+            } else {
+                //change orientation
+                currentMow.setOrientation(nextOrientation);
             }
-        } else {
-            //change orientation
-            currentMow.setOrientation(nextOrientation);
-        }
+        };
+
+        currentMow.getCommands()
+                .stream()
+                .filter(c -> null != c)
+                .forEach(movement);
     }
 
     /**
      * Retourne le prochain Point ou null si la tondeuse change d'orientation mais pas de coordonnées
      * @return Point
      */
-    protected Point next(@Nonnull Direction direction) {
+    protected Point next(@Nonnull Mow currentMow, @Nonnull Direction direction) {
         if (FORWARD.equals(direction)) {
             return NEXT_POSITION.apply(currentMow);
         }
