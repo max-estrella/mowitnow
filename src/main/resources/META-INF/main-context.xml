@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="land" class="com.mowitnow.land.DefaultLand"/>
+
+       <bean id="command" class="com.mowitnow.input.FileCommand">
+              <constructor-arg name="land" ref="land"/>
+              <constructor-arg name="resource" value="classpath:input.txt"/>
+       </bean>
+
+       <bean id="mowController" class="com.mowitnow.controller.MowController">
+              <constructor-arg name="land" ref="land"/>
+       </bean>
+
+       <bean id="mower" class="com.mowitnow.controller.Mower">
+              <constructor-arg name="command" ref="command"/>
+              <constructor-arg name="controller" ref="mowController"/>
+       </bean>
+
+       <bean id="observer" class="com.mowitnow.observer.MowObserver"/>
+
+       <bean id="addObserver" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+              <property name="targetObject" ref="mower" />
+              <property name="targetMethod" value="addObserver"/>
+              <property name="arguments">
+                     <list>
+                            <ref bean="observer" />
+                     </list>
+              </property>
+       </bean>
+
+</beans>
