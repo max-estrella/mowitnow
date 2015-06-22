@@ -18,7 +18,7 @@ import static com.mowitnow.enums.Orientation.*;
 /**
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class MowController implements Consumer<Mow> {
+public class MowController implements IMowController {
 
     /**
      * Marque le mouvement de la tondeuse par rapport à la direction actuel et la future
