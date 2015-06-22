@@ -1,6 +1,5 @@
 package com.mowitnow.controller;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mowitnow.enums.Direction;
 import com.mowitnow.enums.Orientation;
@@ -12,17 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.List;
 
+import static com.mowitnow.enums.Direction.*;
 import static com.mowitnow.enums.Orientation.*;
-import static com.mowitnow.enums.Direction.FORWARD;
-import static com.mowitnow.enums.Direction.LEFT;
-import static com.mowitnow.enums.Direction.RIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
