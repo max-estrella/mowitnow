@@ -15,6 +15,8 @@ import static com.mowitnow.enums.Direction.*;
 import static com.mowitnow.enums.Orientation.*;
 
 /**
+ * Contrôle le mouvement des tondeuses en éxecutant la liste des ordres
+ * 
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
 public class MowController implements Consumer<Mow> {
