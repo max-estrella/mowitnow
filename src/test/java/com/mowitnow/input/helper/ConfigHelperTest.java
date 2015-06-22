@@ -84,9 +84,25 @@ public class ConfigHelperTest  {
     }
 
     @Test
-    public void testMowsAndCommandsIfOk() {
-        List<Mow> mows = Lists.newArrayList();
-        List<List<Direction>> commands = Lists.newArrayList();
+    public void testLoadMowsAndCommandsIfOk() throws Exception {
+        Lists.newArrayList();
+
+        List<Mow> mows = ConfigHelper.loadMowsAndCommands(fileLines());
+        assertThat(mows).hasSize(2);
+
+        assertThat(mows.get(0).getPosition().x).isEqualTo(1);
+        assertThat(mows.get(0).getPosition().y).isEqualTo(2);
+        assertThat(mows.get(0).getOrientation()).isEqualTo(NORTH);
+        assertThat(mows.get(0).getCommands()).containsExactly(
+                LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, FORWARD
+        );
+
+        assertThat(mows.get(1).getPosition().x).isEqualTo(3);
+        assertThat(mows.get(1).getPosition().y).isEqualTo(3);
+        assertThat(mows.get(1).getOrientation()).isEqualTo(EAST);
+        assertThat(mows.get(1).getCommands()).containsExactly(
+                FORWARD, FORWARD, RIGHT, FORWARD, FORWARD, RIGHT, FORWARD, RIGHT, RIGHT, FORWARD
+        );
     }
 
     protected static List<String> fileLines() {

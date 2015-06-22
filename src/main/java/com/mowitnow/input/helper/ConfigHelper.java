@@ -106,30 +106,36 @@ public class ConfigHelper {
         return null;
     }
 
-    public static void loadMowsAndCommands(@Nonnull List<String> commandLines, @Nonnull List<Mow> mows, @Nonnull List<List<Direction>> commands) throws BadFormattedInputException {
+    /**
+     *
+     * @param commandLines
+     * @throws BadFormattedInputException
+     * @return List<Mow>
+     */
+    public static @Nonnull List<Mow> loadMowsAndCommands(@Nonnull List<String> commandLines) throws BadFormattedInputException {
 
+        Mow mow = null;
+        List<Mow> mowList = Lists.newArrayList();
         if (commandLines.size()>=3) {
             for (int i = 1; i<commandLines.size(); i++) {
                 if (i % 2 != 0) {
                     //Mow
                     try {
-                        Mow mow = ConfigHelper.buildMow(commandLines.get(i));
+                        mow = ConfigHelper.buildMow(commandLines.get(i));
                         if (null == mow) {
                             throw new BadFormattedInputException("Bad formatted line (" + commandLines.get(i) + ") for constructing mow");
                         }
-                        mows.add(mow);
+                        mowList.add(mow);
                     } catch (NumberFormatException e) {
                         throw new BadFormattedInputException("Bad formatted line (" + commandLines.get(i) + ") for constructing mow => " + e.getMessage());
                     }
                 } else {
                     //Orders
-                    commands.add(ConfigHelper.buildDirections(commandLines.get(i)));
+                    mow.setCommands(ConfigHelper.buildDirections(commandLines.get(i)));
                 }
             }
         }
 
-        if (commands.size() != mows.size()) {
-            throw new BadFormattedInputException("Bad formatted file, not same commands and mows");
-        }
+        return mowList;
     }
 }
