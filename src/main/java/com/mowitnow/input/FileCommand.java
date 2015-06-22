@@ -5,6 +5,7 @@ import com.mowitnow.input.helper.ConfigHelper;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +37,13 @@ public class FileCommand implements ICommand {
      */
     private ILand land;
 
-
+    /**
+     * Constructeur par défaut
+     * @param inputStream
+     * @param land
+     * @throws IOException
+     * @throws BadFormattedInputException
+     */
     public FileCommand(InputStream inputStream, ILand land) throws IOException, BadFormattedInputException {
         this.land = land;
 
@@ -45,6 +52,16 @@ public class FileCommand implements ICommand {
         this.mows = ConfigHelper.loadMowsAndCommands(lines);
     }
 
+    /**
+     * Constructor pour charger un resource Spring
+     * @param resource
+     * @param land
+     * @throws IOException
+     * @throws BadFormattedInputException
+     */
+    public FileCommand(Resource resource, ILand land) throws IOException, BadFormattedInputException {
+        this(resource.getInputStream(), land);
+    }
     /**
      * {@inheritDoc}
      */
