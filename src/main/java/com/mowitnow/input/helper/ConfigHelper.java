@@ -17,6 +17,10 @@ import static com.mowitnow.enums.Direction.RIGHT;
 import static com.mowitnow.enums.Orientation.*;
 
 /**
+ * Utilitaire qui permet de passer les lignes du fichier de configuration pour établir
+ * les dimensions de la pelouse et construire les tondeuses avec la position initiale
+ * et les ordres à éxecuter
+ *
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
 public class ConfigHelper {
