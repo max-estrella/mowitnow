@@ -5,10 +5,9 @@ import com.mowitnow.enums.Direction;
 import com.mowitnow.enums.Orientation;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
-import lombok.Setter;
 
 import javax.annotation.Nonnull;
-import java.awt.Point;
+import java.awt.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -18,7 +17,7 @@ import static com.mowitnow.enums.Orientation.*;
 /**
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class MowController implements IMowController {
+public class MowController implements Consumer<Mow> {
 
     /**
      * Marque le mouvement de la tondeuse par rapport à la direction actuel et la future
@@ -47,8 +46,15 @@ public class MowController implements IMowController {
         }
     };
 
-    @Setter
     private ILand land;
+
+    /**
+     * Constructeur, il faut
+     * @param land
+     */
+    public MowController(ILand land) {
+        this.land = land;
+    }
 
     /**
      * {@inheritDoc}
