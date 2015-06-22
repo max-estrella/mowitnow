@@ -18,19 +18,20 @@ public class Mower {
     public Mower(ICommand command, Observable observable) {
         this.command = command;
         this.controller = new MowController();
-        this.controller.setTheField(command.getField());
+        this.controller.setLand(command.getLand());
         this.observable = observable;
     }
 
+    /**
+     * Coupe la pelouse
+     */
     public void mow() {
-        while (command.hasNextMow()) {
-            controller.setCurrentMow(command.nextMow());
-            command.getCommands()
-                    .stream()
-                    .filter(d -> null != d)
-                    .forEach(controller);
-
-            observable.notifyObservers(controller.getCurrentMow());
-        }
+        command.getMows()
+                .stream()
+                .filter(mow -> null != mow)
+                .forEach(mow -> {
+                    controller.accept(mow);
+                    observable.notifyObservers(mow);
+                });
     }
 }

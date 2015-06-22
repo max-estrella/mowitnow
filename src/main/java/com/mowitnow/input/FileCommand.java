@@ -34,39 +34,26 @@ public class FileCommand implements ICommand {
     private List<Mow> mows;
 
     /**
-     * Instructions pour les tondeuses
-     */
-    private List<List<Direction>> commands;
-
-    /**
      * Pelouse
      */
     private ILand land;
 
-    /**
-     * Tondeuse et instructions
-     */
-    private int currentMow;
-
 
     public FileCommand(String filePath, ILand land) throws IOException, BadFormattedInputException {
         this.land = land;
-        this.currentMow = 0;
-        this.commands = Lists.newArrayList();
-        this.mows = Lists.newArrayList();
 
         ClassLoader classLoader = getClass().getClassLoader();
 
         List<String> lines = IOUtils.readLines(classLoader.getResourceAsStream(filePath));
         ConfigHelper.setLandDimensions(land, lines);
-
+        this.mows = ConfigHelper.loadMowsAndCommands(lines);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ILand getField() {
+    public ILand getLand() {
         return land;
     }
 
@@ -74,35 +61,8 @@ public class FileCommand implements ICommand {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasNextMow() {
-        return mows.size() == commands.size() && mows.size() > currentMow;
+    public List<Mow> getMows(){
+        return mows;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Mow nextMow() {
-        if (hasNextMow()) {
-            currentMow++;
-            return mows.get(currentMow);
-        }
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Direction> getCommands() {
-        if (hasNextMow()) {
-            return commands.get(currentMow);
-        }
-        return null;
-    }
-
-
-
-
 
 }

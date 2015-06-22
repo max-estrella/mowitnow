@@ -1,7 +1,5 @@
 package com.mowitnow.input;
 
-
-import com.mowitnow.enums.Direction;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 
@@ -19,27 +17,12 @@ public interface ICommand {
      *
      * @return ILand
      */
-    ILand getField();
+    ILand getLand();
 
     /**
-     * Retourne true si on a plus de tondeuses
+     * Recupère la liste des tondeuses
      *
-     * @return boolean
+     * @return
      */
-    boolean hasNextMow();
-
-    /**
-     * Retourne la prochaine tondeuse de la grille
-     *
-     * @return Mow
-     */
-    Mow nextMow();
-
-    /**
-     * Retourne la prochaine instruction
-     *
-     * @return Direction
-     */
-    List<Direction> getCommands();
-
+    List<Mow> getMows();
 }

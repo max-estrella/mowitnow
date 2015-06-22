@@ -1,6 +1,7 @@
 package com.mowitnow.controller;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.mowitnow.enums.Orientation;
 import com.mowitnow.land.DefaultLand;
 import com.mowitnow.input.ICommand;
@@ -38,25 +39,26 @@ public class MowerTest {
     public void setUp() {
         DefaultLand land = new DefaultLand();
         land.setDimension(5,5);
-        when(command.getField()).thenReturn(land);
+        when(command.getLand()).thenReturn(land);
         mower = new Mower(command, observable);
     }
 
     @Test
     public void testMow() {
-        when(command.hasNextMow()).thenReturn(true, true, false);
         Mow mow1 = new Mow(new Point(1,2), Orientation.NORTH);
-        Mow mow2 = new Mow(new Point(3,3), Orientation.EAST);
-        when(command.nextMow()).thenReturn(mow1, mow2);
-
-        when(command.getCommands()).thenReturn(
+        mow1.setCommands(
             ImmutableList.of(//GAGAGAGAA
                 LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, FORWARD
-            ),
-            ImmutableList.of(//AADAADADDA
-                FORWARD, FORWARD, RIGHT, FORWARD, FORWARD, RIGHT, FORWARD, RIGHT, RIGHT, FORWARD
             )
         );
+        Mow mow2 = new Mow(new Point(3,3), Orientation.EAST);
+        mow2.setCommands(
+                ImmutableList.of(//AADAADADDA
+                        FORWARD, FORWARD, RIGHT, FORWARD, FORWARD, RIGHT, FORWARD, RIGHT, RIGHT, FORWARD
+                )
+        );
+
+        when(command.getMows()).thenReturn(Lists.newArrayList(mow1, mow2));
 
         mower.mow();
 
