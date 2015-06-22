@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.awt.*;
-import java.util.Observable;
+import java.util.function.Consumer;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,10 +26,7 @@ public class MowerTest {
     protected ICommand command;
 
     @Mock
-    protected IMowController controller;
-
-    @Mock
-    protected Observable observable;
+    protected Consumer<Mow> controller;
 
     @InjectMocks
     protected Mower mower;
@@ -44,9 +41,6 @@ public class MowerTest {
         mower.mow();
 
         verify(controller).accept(mow1);
-        verify(observable).notifyObservers(mow1);
-
         verify(controller).accept(mow2);
-        verify(observable).notifyObservers(mow2);
     }
 }

@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 /**
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
-public class Mower {
+public class Mower extends Observable implements IMower {
 
     /**
      * Input data
@@ -19,18 +19,11 @@ public class Mower {
     /**
      * Controleur des tondeuses
      */
-    protected IMowController controller;
+    protected Consumer<Mow> controller;
 
-    /**
-     * Observable pour notifier les observes qu'on a processé une tondeuse
-     */
-    protected Observable observable;
-
-    public Mower(ICommand command, IMowController controller, Observable observable) {
+    public Mower(ICommand command, Consumer<Mow> controller) {
         this.command = command;
         this.controller = controller;
-        this.controller.setLand(command.getLand());
-        this.observable = observable;
     }
 
     /**
@@ -42,7 +35,8 @@ public class Mower {
                 .filter(mow -> null != mow)
                 .forEach(mow -> {
                     controller.accept(mow);
-                    observable.notifyObservers(mow);
+                    setChanged();
+                    notifyObservers(mow);
                 });
     }
 }
