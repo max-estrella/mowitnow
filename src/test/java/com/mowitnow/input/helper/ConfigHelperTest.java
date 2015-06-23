@@ -1,7 +1,6 @@
 package com.mowitnow.input.helper;
 
 import com.google.common.collect.Lists;
-import com.mowitnow.enums.Direction;
 import com.mowitnow.exception.BadFormattedInputException;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
@@ -16,7 +15,10 @@ import java.util.List;
 import static com.mowitnow.enums.Direction.FORWARD;
 import static com.mowitnow.enums.Direction.LEFT;
 import static com.mowitnow.enums.Direction.RIGHT;
-import static com.mowitnow.enums.Orientation.*;
+import static com.mowitnow.enums.Orientation.NORTH;
+import static com.mowitnow.enums.Orientation.SOUTH;
+import static com.mowitnow.enums.Orientation.EAST;
+import static com.mowitnow.enums.Orientation.WEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
