@@ -3,6 +3,7 @@ package com.mowitnow.input;
 import com.mowitnow.land.ILand;
 import com.mowitnow.model.Mow;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -12,6 +13,12 @@ import java.util.List;
  * @author Max Velasco <ivan.velascomartin@gmail.com>
  */
 public interface IConfigReader {
+
+    /**
+     * Charge et parse les données pour construire la liste de tondeuses et les dimesions de la pelouse
+     * @param data
+     */
+    void loadData(InputStream data);
 
     /**
      * Recupère les dimensions de la grille de pelouse

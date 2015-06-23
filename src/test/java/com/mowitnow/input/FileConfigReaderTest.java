@@ -26,9 +26,10 @@ public class FileConfigReaderTest {
     @Test
     public void testReadFileAndGetMows() throws Exception {
         ILand land = Mockito.mock(ILand.class);
-        FileConfigReader command = new FileConfigReader(getClass().getClassLoader().getResourceAsStream("input.txt"), land);
+        FileConfigReader reader = new FileConfigReader(land);
 
-        List<Mow> mows = command.getMows();
+        reader.loadData(getClass().getClassLoader().getResourceAsStream("input.txt"));
+        List<Mow> mows = reader.getMows();
 
         assertThat(mows).hasSize(2);
         assertThat(mows).hasSize(2);

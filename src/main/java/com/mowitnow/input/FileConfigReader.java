@@ -7,7 +7,6 @@ import com.mowitnow.model.Mow;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,29 +45,27 @@ public class FileConfigReader implements IConfigReader {
 
     /**
      * Constructeur par défaut
-     * @param inputStream
      * @param land
      */
-    public FileConfigReader(InputStream inputStream, ILand land) {
+    public FileConfigReader(ILand land) {
         this.land = land;
 
+
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadData(InputStream data) {
         try{
-            List<String> lines = IOUtils.readLines(inputStream);
+            List<String> lines = IOUtils.readLines(data);
             ConfigHelper.setLandDimensions(land, lines);
             this.mows = ConfigHelper.loadMowsAndCommands(lines);
         } catch (IOException | BadFormattedInputException e) {
             LOGGER.error("Error while reading from config file", e);
         }
-
-    }
-
-    /**
-     * Constructor pour charger un resource Spring
-     * @param resource
-     * @param land
-     */
-    public FileConfigReader(Resource resource, ILand land) throws IOException{
-        this(resource.getInputStream(), land);
     }
 
     /**

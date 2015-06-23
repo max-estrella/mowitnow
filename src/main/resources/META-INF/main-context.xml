@@ -7,7 +7,6 @@
 
        <bean id="reader" class="com.mowitnow.input.FileConfigReader">
               <constructor-arg name="land" ref="land"/>
-              <constructor-arg name="resource" value="classpath:input.txt"/>
        </bean>
 
        <bean id="mowController" class="com.mowitnow.controller.MowController">
